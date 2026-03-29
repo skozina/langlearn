@@ -1,0 +1,34 @@
+{
+  "id": "es",
+  "label": "Spanish",
+  "nativeLabel": "Español",
+  "specialChars": ["á", "é", "í", "ó", "ú", "ü", "ñ", "¿", "¡", "Á", "É", "Í", "Ó", "Ú", "Ñ"],
+  "lessons": [
+    { "name": "Lesson 1 – first words",  "wordCount": 5  },
+    { "name": "Lesson 2 – more words",   "wordCount": 10 },
+    { "name": "Lesson 3 – expanding",    "wordCount": 15 },
+    { "name": "Lesson 4 – all words",    "wordCount": 20 }
+  ],
+  "words": [
+    { "native": "apple",   "foreign": "manzana"  },
+    { "native": "house",   "foreign": "casa"     },
+    { "native": "water",   "foreign": "agua"     },
+    { "native": "book",    "foreign": "libro"    },
+    { "native": "door",    "foreign": "puerta"   },
+    { "native": "cat",     "foreign": "gato"     },
+    { "native": "dog",     "foreign": "perro"    },
+    { "native": "sun",     "foreign": "sol"      },
+    { "native": "moon",    "foreign": "luna"     },
+    { "native": "tree",    "foreign": "árbol"    },
+    { "native": "bread",   "foreign": "pan"      },
+    { "native": "milk",    "foreign": "leche"    },
+    { "native": "car",     "foreign": "coche"    },
+    { "native": "school",  "foreign": "escuela"  },
+    { "native": "friend",  "foreign": "amigo"    },
+    { "native": "time",    "foreign": "tiempo"   },
+    { "native": "child",   "foreign": "niño"     },
+    { "native": "city",    "foreign": "ciudad"   },
+    { "native": "street",  "foreign": "calle"    },
+    { "native": "window",  "foreign": "ventana"  }
+  ]
+}
