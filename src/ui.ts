@@ -1,7 +1,7 @@
 import type { LanguageData, QuizState } from './types';
 import type { SummaryData } from './app';
 
-type Screen = 'language-select' | 'quiz' | 'summary';
+type Screen = 'language-select' | 'lesson-select' | 'quiz' | 'summary';
 
 // Only one document-level keydown handler may be active at a time.
 let activeKeyHandler: ((e: KeyboardEvent) => void) | null = null;
@@ -24,7 +24,7 @@ function hide(id: string) {
 }
 
 function setScreen(screen: Screen) {
-  (['language-select', 'quiz', 'summary'] as const).forEach((s) => {
+  (['language-select', 'lesson-select', 'quiz', 'summary'] as const).forEach((s) => {
     const elem = el(s);
     elem.hidden = s !== screen;
   });
@@ -68,6 +68,52 @@ export function renderLanguageSelect(
 
   // Defer focus so any in-flight Enter keydown (e.g. from advancing the last
   // feedback card) cannot immediately activate the first language button.
+  setTimeout(() => buttons()[0]?.focus(), 0);
+}
+
+// ── Lesson select ────────────────────────────────────────────────────────────
+
+export function renderLessonSelect(
+  language: LanguageData,
+  onSelect: (wordCount: number) => void,
+  onBack: () => void
+) {
+  setScreen('lesson-select');
+  setKeyHandler(null);
+
+  el('lesson-lang-name').textContent = `${language.label} (${language.nativeLabel})`;
+
+  const oldBack = el<HTMLButtonElement>('lesson-back-btn');
+  const freshBack = oldBack.cloneNode(true) as HTMLButtonElement;
+  oldBack.replaceWith(freshBack);
+  freshBack.addEventListener('click', onBack);
+
+  const oldList = el('lesson-list');
+  const list = document.createElement('div');
+  list.id = 'lesson-list';
+  oldList.replaceWith(list);
+
+  for (const lesson of language.lessons) {
+    const btn = document.createElement('button');
+    btn.textContent = lesson.name;
+    btn.addEventListener('click', () => onSelect(lesson.wordCount));
+    list.appendChild(btn);
+  }
+
+  const buttons = () => Array.from(list.querySelectorAll<HTMLButtonElement>('button'));
+
+  list.addEventListener('keydown', (e) => {
+    const btns = buttons();
+    const idx = btns.indexOf(document.activeElement as HTMLButtonElement);
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      btns[(idx + 1) % btns.length].focus();
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      btns[(idx - 1 + btns.length) % btns.length].focus();
+    }
+  });
+
   setTimeout(() => buttons()[0]?.focus(), 0);
 }
 

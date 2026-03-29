@@ -40,6 +40,7 @@ body {
 /* ── Screens ─────────────────────────────────────────────── */
 
 #language-select,
+#lesson-select,
 #quiz,
 #summary {
   width: 100%;
@@ -64,11 +65,23 @@ h1 {
   color: var(--muted);
 }
 
-#language-list {
+#language-list,
+#lesson-list {
   display: flex;
   flex-direction: column;
   gap: .75rem;
 }
+
+#lesson-back-btn {
+  background: transparent;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+  padding: .4rem .9rem;
+  font-size: .9rem;
+  margin-bottom: 1.25rem;
+}
+
+#lesson-back-btn:hover { background: var(--primary); color: #fff; }
 
 /* ── Quiz header ─────────────────────────────────────────── */
 

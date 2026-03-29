@@ -1,8 +1,8 @@
 import type { LanguageData, QuizState, WordPair } from './types';
 import { shuffle } from './data';
 
-export function startQuiz(language: LanguageData): QuizState {
-  const queue = shuffle(language.words);
+export function startQuiz(language: LanguageData, wordCount: number): QuizState {
+  const queue = shuffle(language.words.slice(0, wordCount));
   return {
     language,
     queue: queue.slice(1),

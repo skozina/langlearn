@@ -13,6 +13,14 @@
       <div id="language-list"></div>
     </div>
 
+    <!-- Lesson selection screen -->
+    <div id="lesson-select" hidden>
+      <button id="lesson-back-btn">← Languages</button>
+      <h1 id="lesson-lang-name"></h1>
+      <p class="subtitle">Choose a lesson</p>
+      <div id="lesson-list"></div>
+    </div>
+
     <!-- Quiz screen -->
     <div id="quiz" hidden>
       <header>
@@ -50,7 +58,7 @@
         <h3>Words to review</h3>
         <ul id="missed-list"></ul>
       </section>
-      <button id="restart-btn">← Choose language</button>
+      <button id="restart-btn">← Choose lesson</button>
     </div>
 
     <script type="module" src="/src/main.ts"></script>

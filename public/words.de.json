@@ -3,6 +3,12 @@
   "label": "German",
   "nativeLabel": "Deutsch",
   "specialChars": ["ä", "ö", "ü", "ß", "Ä", "Ö", "Ü"],
+  "lessons": [
+    { "name": "Lesson 1 – first words",  "wordCount": 5  },
+    { "name": "Lesson 2 – more words",   "wordCount": 10 },
+    { "name": "Lesson 3 – expanding",    "wordCount": 15 },
+    { "name": "Lesson 4 – all words",    "wordCount": 20 }
+  ],
   "words": [
     { "native": "apple",   "foreign": "Apfel"   },
     { "native": "house",   "foreign": "Haus"    },

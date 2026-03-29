@@ -3,6 +3,12 @@
   "label": "French",
   "nativeLabel": "Français",
   "specialChars": ["à", "â", "é", "è", "ê", "ë", "î", "ï", "ô", "ù", "û", "ü", "ç", "œ", "æ", "É", "È", "Ê", "Ç", "Œ"],
+  "lessons": [
+    { "name": "Lesson 1 – first words",  "wordCount": 5  },
+    { "name": "Lesson 2 – more words",   "wordCount": 10 },
+    { "name": "Lesson 3 – expanding",    "wordCount": 15 },
+    { "name": "Lesson 4 – all words",    "wordCount": 20 }
+  ],
   "words": [
     { "native": "apple",   "foreign": "pomme"   },
     { "native": "house",   "foreign": "maison"  },

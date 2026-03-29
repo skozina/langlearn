@@ -3,11 +3,17 @@ export interface WordPair {
   foreign: string;
 }
 
+export interface Lesson {
+  name: string;
+  wordCount: number;
+}
+
 export interface LanguageData {
   id: string;
   label: string;
   nativeLabel: string;
   specialChars: string[];
+  lessons: Lesson[];
   words: WordPair[];
 }
 

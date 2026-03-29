@@ -1,7 +1,7 @@
 import './style.css';
 import { loadLanguageIds, loadLanguage } from './data';
 import { startQuiz, submit, next, isFinished, buildSummary } from './app';
-import { renderLanguageSelect, renderQuiz, renderFeedback, renderSummary } from './ui';
+import { renderLanguageSelect, renderLessonSelect, renderQuiz, renderFeedback, renderSummary } from './ui';
 import type { LanguageData, QuizState } from './types';
 
 async function init() {
@@ -9,23 +9,29 @@ async function init() {
   const languages: LanguageData[] = await Promise.all(ids.map(loadLanguage));
 
   function showLanguageSelect() {
-    renderLanguageSelect(languages, (lang) => {
-      showQuiz(startQuiz(lang));
-    });
+    renderLanguageSelect(languages, (lang) => showLessonSelect(lang));
   }
 
-  function showQuiz(state: QuizState) {
+  function showLessonSelect(lang: LanguageData) {
+    renderLessonSelect(
+      lang,
+      (wordCount) => showQuiz(startQuiz(lang, wordCount), lang),
+      showLanguageSelect
+    );
+  }
+
+  function showQuiz(state: QuizState, lang: LanguageData) {
     renderQuiz(state, (answer) => {
       const afterSubmit = submit(state, answer);
       renderFeedback(afterSubmit, () => {
         if (isFinished(afterSubmit)) {
-          renderSummary(buildSummary(afterSubmit), showLanguageSelect);
+          renderSummary(buildSummary(afterSubmit), () => showLessonSelect(lang));
         } else {
           const n = next(afterSubmit);
           if (n === 'summary') {
-            renderSummary(buildSummary(afterSubmit), showLanguageSelect);
+            renderSummary(buildSummary(afterSubmit), () => showLessonSelect(lang));
           } else {
-            showQuiz(n);
+            showQuiz(n, lang);
           }
         }
       });
