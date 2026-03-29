@@ -1,0 +1,16 @@
+# GitHub Pages / Jekyll configuration for LangLearn
+# This app is pre-built by Vite; Jekyll is used only for serving, not building.
+
+title: LangLearn
+description: Vocabulary practice app — type the translation without any typos.
+
+# Exclude source and tooling files from Jekyll processing
+exclude:
+  - src/
+  - node_modules/
+  - package.json
+  - package-lock.json
+  - tsconfig.json
+  - vite.config.ts
+  - README.md
+  - LICENSE
