@@ -15,7 +15,7 @@ async function init() {
   function showLessonSelect(lang: LanguageData) {
     renderLessonSelect(
       lang,
-      (wordCount) => showQuiz(startQuiz(lang, wordCount), lang),
+      (lesson) => showQuiz(startQuiz(lang, lesson), lang),
       showLanguageSelect
     );
   }

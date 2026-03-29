@@ -1,14 +1,14 @@
-import type { LanguageData, QuizState, WordPair } from './types';
+import type { LanguageData, Lesson, QuizState, WordPair } from './types';
 import { shuffle } from './data';
 
-export function startQuiz(language: LanguageData, wordCount: number): QuizState {
-  const queue = shuffle(language.words.slice(0, wordCount));
+export function startQuiz(language: LanguageData, lesson: Lesson): QuizState {
+  const queue = shuffle(lesson.words);
   return {
     language,
     queue: queue.slice(1),
     current: queue[0],
     score: 0,
-    total: language.words.length,
+    total: lesson.words.length,
     missed: [],
     phase: 'quiz',
     lastCorrect: false,

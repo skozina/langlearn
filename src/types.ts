@@ -5,7 +5,7 @@ export interface WordPair {
 
 export interface Lesson {
   name: string;
-  wordCount: number;
+  words: WordPair[];
 }
 
 export interface LanguageData {
@@ -14,7 +14,6 @@ export interface LanguageData {
   nativeLabel: string;
   specialChars: string[];
   lessons: Lesson[];
-  words: WordPair[];
 }
 
 export interface QuizState {

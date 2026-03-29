@@ -1,4 +1,4 @@
-import type { LanguageData, QuizState } from './types';
+import type { LanguageData, Lesson, QuizState } from './types';
 import type { SummaryData } from './app';
 
 type Screen = 'language-select' | 'lesson-select' | 'quiz' | 'summary';
@@ -75,7 +75,7 @@ export function renderLanguageSelect(
 
 export function renderLessonSelect(
   language: LanguageData,
-  onSelect: (wordCount: number) => void,
+  onSelect: (lesson: Lesson) => void,
   onBack: () => void
 ) {
   setScreen('lesson-select');
@@ -96,7 +96,7 @@ export function renderLessonSelect(
   for (const lesson of language.lessons) {
     const btn = document.createElement('button');
     btn.textContent = lesson.name;
-    btn.addEventListener('click', () => onSelect(lesson.wordCount));
+    btn.addEventListener('click', () => onSelect(lesson));
     list.appendChild(btn);
   }
 
