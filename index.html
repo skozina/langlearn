@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LangLearn</title>
+  </head>
+  <body>
+    <!-- Language selection screen -->
+    <div id="language-select">
+      <h1>LangLearn</h1>
+      <p class="subtitle">Choose a language to practise</p>
+      <div id="language-list"></div>
+    </div>
+
+    <!-- Quiz screen -->
+    <div id="quiz" hidden>
+      <header>
+        <span id="progress-text"></span>
+        <div class="progress-bar"><div id="progress-bar-fill"></div></div>
+      </header>
+
+      <main>
+        <p class="prompt-label">Translate to <span id="target-lang"></span>:</p>
+        <p id="word-native" class="word-native"></p>
+
+        <form id="quiz-form" autocomplete="off">
+          <input
+            id="answer-input"
+            type="text"
+            placeholder="Type your answer…"
+            autocapitalize="none"
+            spellcheck="false"
+          />
+          <button type="submit">Check</button>
+        </form>
+
+        <div id="virtual-keyboard"></div>
+
+        <p id="feedback" hidden></p>
+        <button id="next-btn" hidden>Next →</button>
+      </main>
+    </div>
+
+    <!-- Summary screen -->
+    <div id="summary" hidden>
+      <h2>Round complete!</h2>
+      <p><span id="summary-lang"></span> — Score: <strong id="summary-score"></strong></p>
+      <section id="missed-section">
+        <h3>Words to review</h3>
+        <ul id="missed-list"></ul>
+      </section>
+      <button id="restart-btn">← Choose language</button>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

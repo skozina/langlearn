@@ -1,0 +1,28 @@
+{
+  "id": "de",
+  "label": "German",
+  "nativeLabel": "Deutsch",
+  "specialChars": ["ä", "ö", "ü", "ß", "Ä", "Ö", "Ü"],
+  "words": [
+    { "native": "apple",   "foreign": "Apfel"   },
+    { "native": "house",   "foreign": "Haus"    },
+    { "native": "water",   "foreign": "Wasser"  },
+    { "native": "book",    "foreign": "Buch"    },
+    { "native": "door",    "foreign": "Tür"     },
+    { "native": "cat",     "foreign": "Katze"   },
+    { "native": "dog",     "foreign": "Hund"    },
+    { "native": "sun",     "foreign": "Sonne"   },
+    { "native": "moon",    "foreign": "Mond"    },
+    { "native": "tree",    "foreign": "Baum"    },
+    { "native": "bread",   "foreign": "Brot"    },
+    { "native": "milk",    "foreign": "Milch"   },
+    { "native": "car",     "foreign": "Auto"    },
+    { "native": "school",  "foreign": "Schule"  },
+    { "native": "friend",  "foreign": "Freund"  },
+    { "native": "time",    "foreign": "Zeit"    },
+    { "native": "child",   "foreign": "Kind"    },
+    { "native": "city",    "foreign": "Stadt"   },
+    { "native": "street",  "foreign": "Straße"  },
+    { "native": "window",  "foreign": "Fenster" }
+  ]
+}

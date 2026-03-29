@@ -1,0 +1,253 @@
+*, *::before, *::after { box-sizing: border-box; }
+
+:root {
+  --bg: #f5f5f5;
+  --surface: #ffffff;
+  --primary: #4f6ef7;
+  --primary-hover: #3a57d4;
+  --text: #1a1a2e;
+  --muted: #6b7280;
+  --correct: #16a34a;
+  --wrong: #dc2626;
+  --border: #e2e8f0;
+  --radius: 12px;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --border: #334155;
+  }
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+/* ── Screens ─────────────────────────────────────────────── */
+
+#language-select,
+#quiz,
+#summary {
+  width: 100%;
+  max-width: 480px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 2rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,.08);
+}
+
+/* ── Language select ─────────────────────────────────────── */
+
+h1 {
+  margin: 0 0 .25rem;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.subtitle {
+  margin: 0 0 1.5rem;
+  text-align: center;
+  color: var(--muted);
+}
+
+#language-list {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+}
+
+/* ── Quiz header ─────────────────────────────────────────── */
+
+#quiz header {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  margin-bottom: 2rem;
+}
+
+#progress-text {
+  white-space: nowrap;
+  font-size: .85rem;
+  color: var(--muted);
+}
+
+.progress-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+#progress-bar-fill {
+  height: 100%;
+  background: var(--primary);
+  border-radius: 99px;
+  transition: width .3s ease;
+}
+
+/* ── Quiz main ───────────────────────────────────────────── */
+
+.prompt-label {
+  margin: 0 0 .5rem;
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+#word-native {
+  margin: 0 0 1.5rem;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+
+#quiz-form {
+  display: flex;
+  gap: .5rem;
+}
+
+input[type="text"] {
+  flex: 1;
+  padding: .65rem .9rem;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-family: inherit;
+  background: var(--bg);
+  color: var(--text);
+  transition: border-color .2s;
+  outline: none;
+}
+
+input[type="text"]:focus {
+  border-color: var(--primary);
+}
+
+input.correct { border-color: var(--correct); }
+input.wrong   { border-color: var(--wrong);   }
+
+#virtual-keyboard {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem;
+  margin-top: .75rem;
+}
+
+.kbd-key {
+  padding: .4rem .65rem;
+  font-size: .95rem;
+  font-weight: 400;
+  background: var(--bg);
+  color: var(--text);
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  min-width: 2.2rem;
+}
+
+.kbd-key:hover:not(:disabled) { background: var(--border); }
+.kbd-key:disabled { opacity: .35; cursor: default; }
+
+.feedback {
+  margin: 1rem 0 0;
+  padding: .65rem 1rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+}
+
+.feedback.correct {
+  background: #dcfce7;
+  color: var(--correct);
+}
+
+.feedback.wrong {
+  background: #fee2e2;
+  color: var(--wrong);
+}
+
+@media (prefers-color-scheme: dark) {
+  .feedback.correct { background: #14532d; }
+  .feedback.wrong   { background: #7f1d1d; }
+}
+
+#next-btn {
+  margin-top: .75rem;
+  width: 100%;
+}
+
+/* ── Summary ─────────────────────────────────────────────── */
+
+#summary h2 {
+  margin: 0 0 .5rem;
+  font-size: 1.5rem;
+}
+
+#summary p {
+  color: var(--muted);
+  margin: 0 0 1.5rem;
+}
+
+#summary p strong {
+  color: var(--text);
+  font-size: 1.1rem;
+}
+
+#missed-section h3 {
+  margin: 0 0 .75rem;
+  font-size: 1rem;
+}
+
+#missed-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+}
+
+#missed-list li {
+  padding: .5rem .75rem;
+  background: var(--bg);
+  border-radius: 8px;
+  font-size: .95rem;
+}
+
+.word-foreign {
+  font-weight: 600;
+}
+
+#restart-btn {
+  width: 100%;
+}
+
+/* ── Shared button style ─────────────────────────────────── */
+
+button {
+  padding: .65rem 1.2rem;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--primary);
+  color: #fff;
+  font-size: 1rem;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s;
+}
+
+button:hover  { background: var(--primary-hover); }
+button:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }

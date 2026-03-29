@@ -1,0 +1,28 @@
+{
+  "id": "fr",
+  "label": "French",
+  "nativeLabel": "Français",
+  "specialChars": ["à", "â", "é", "è", "ê", "ë", "î", "ï", "ô", "ù", "û", "ü", "ç", "œ", "æ", "É", "È", "Ê", "Ç", "Œ"],
+  "words": [
+    { "native": "apple",   "foreign": "pomme"   },
+    { "native": "house",   "foreign": "maison"  },
+    { "native": "water",   "foreign": "eau"     },
+    { "native": "book",    "foreign": "livre"   },
+    { "native": "door",    "foreign": "porte"   },
+    { "native": "cat",     "foreign": "chat"    },
+    { "native": "dog",     "foreign": "chien"   },
+    { "native": "sun",     "foreign": "soleil"  },
+    { "native": "moon",    "foreign": "lune"    },
+    { "native": "tree",    "foreign": "arbre"   },
+    { "native": "bread",   "foreign": "pain"    },
+    { "native": "milk",    "foreign": "lait"    },
+    { "native": "car",     "foreign": "voiture" },
+    { "native": "school",  "foreign": "école"   },
+    { "native": "friend",  "foreign": "ami"     },
+    { "native": "time",    "foreign": "temps"   },
+    { "native": "child",   "foreign": "enfant"  },
+    { "native": "city",    "foreign": "ville"   },
+    { "native": "street",  "foreign": "rue"     },
+    { "native": "window",  "foreign": "fenêtre" }
+  ]
+}
