@@ -119,6 +119,11 @@ export function renderLessonSelect(
 
 // ── Quiz ─────────────────────────────────────────────────────────────────────
 
+const KBD_ROW_1 = 'qwertyuiop';
+const KBD_ROW_2 = 'asdfghjkl';
+const KBD_ROW_3 = 'zxcvbnm';
+const KBD_PUNCTUATION = ["'", '-'];
+
 export function renderQuiz(
   state: QuizState,
   onSubmit: (answer: string) => void
@@ -139,7 +144,6 @@ export function renderQuiz(
   const input = el<HTMLInputElement>('answer-input');
   input.value = '';
   input.className = '';
-  input.readOnly = false;
   hide('feedback');
 
   // submit handler (replace old one by cloning)
@@ -150,34 +154,142 @@ export function renderQuiz(
   const freshInput = fresh.querySelector<HTMLInputElement>('#answer-input')!;
   freshInput.focus();
 
+  function doSubmit() {
+    setKeyHandler(null);
+    onSubmit(freshInput.value);
+  }
+
   fresh.addEventListener('submit', (e) => {
     e.preventDefault();
-    onSubmit(freshInput.value);
+    doSubmit();
   });
 
-  // virtual keyboard
+  function insertChar(text: string) {
+    const start = freshInput.selectionStart ?? freshInput.value.length;
+    const end = freshInput.selectionEnd ?? freshInput.value.length;
+    freshInput.value = freshInput.value.slice(0, start) + text + freshInput.value.slice(end);
+    freshInput.selectionStart = freshInput.selectionEnd = start + text.length;
+    freshInput.focus();
+  }
+
+  function backspace() {
+    const start = freshInput.selectionStart ?? freshInput.value.length;
+    const end = freshInput.selectionEnd ?? freshInput.value.length;
+    if (start === end) {
+      if (start === 0) return;
+      freshInput.value = freshInput.value.slice(0, start - 1) + freshInput.value.slice(end);
+      freshInput.selectionStart = freshInput.selectionEnd = start - 1;
+    } else {
+      freshInput.value = freshInput.value.slice(0, start) + freshInput.value.slice(end);
+      freshInput.selectionStart = freshInput.selectionEnd = start;
+    }
+    freshInput.focus();
+  }
+
+  // custom on-screen keyboard
   const kbd = el('virtual-keyboard');
   kbd.innerHTML = '';
-  for (const char of state.language.specialChars) {
+
+  let shiftOn = false;
+  const letterButtons: HTMLButtonElement[] = [];
+
+  function updateLetterLabels() {
+    for (const btn of letterButtons) {
+      btn.textContent = shiftOn ? btn.dataset.letter!.toUpperCase() : btn.dataset.letter!;
+    }
+  }
+
+  function makeKey(label: string, className: string, onClick: () => void): HTMLButtonElement {
     const btn = document.createElement('button');
     btn.type = 'button';
-    btn.textContent = char;
-    btn.className = 'kbd-key';
-    btn.addEventListener('click', () => {
-      const start = freshInput.selectionStart ?? freshInput.value.length;
-      const end = freshInput.selectionEnd ?? freshInput.value.length;
-      freshInput.value = freshInput.value.slice(0, start) + char + freshInput.value.slice(end);
-      freshInput.selectionStart = freshInput.selectionEnd = start + char.length;
-      freshInput.focus();
-    });
-    kbd.appendChild(btn);
+    btn.textContent = label;
+    btn.className = className;
+    btn.addEventListener('click', onClick);
+    return btn;
   }
+
+  function addRow(build: (row: HTMLElement) => void) {
+    const row = document.createElement('div');
+    row.className = 'kbd-row';
+    build(row);
+    kbd.appendChild(row);
+  }
+
+  function addLetterRow(letters: string) {
+    addRow((row) => {
+      for (const letter of letters) {
+        const btn = makeKey(letter, 'kbd-key', () => {
+          insertChar(shiftOn ? letter.toUpperCase() : letter);
+          if (shiftOn) {
+            shiftOn = false;
+            updateLetterLabels();
+            shiftBtn.classList.remove('active');
+          }
+        });
+        btn.dataset.letter = letter;
+        letterButtons.push(btn);
+        row.appendChild(btn);
+      }
+    });
+  }
+
+  addLetterRow(KBD_ROW_1);
+  addLetterRow(KBD_ROW_2);
+
+  let shiftBtn!: HTMLButtonElement;
+  addRow((row) => {
+    shiftBtn = makeKey('⇧', 'kbd-key kbd-key--wide', () => {
+      shiftOn = !shiftOn;
+      updateLetterLabels();
+      shiftBtn.classList.toggle('active', shiftOn);
+    });
+    row.appendChild(shiftBtn);
+    for (const letter of KBD_ROW_3) {
+      const btn = makeKey(letter, 'kbd-key', () => {
+        insertChar(shiftOn ? letter.toUpperCase() : letter);
+        if (shiftOn) {
+          shiftOn = false;
+          updateLetterLabels();
+          shiftBtn.classList.remove('active');
+        }
+      });
+      btn.dataset.letter = letter;
+      letterButtons.push(btn);
+      row.appendChild(btn);
+    }
+    row.appendChild(makeKey('⌫', 'kbd-key kbd-key--wide', backspace));
+  });
+
+  if (KBD_PUNCTUATION.length > 0 || state.language.specialChars.length > 0) {
+    addRow((row) => {
+      for (const char of [...KBD_PUNCTUATION, ...state.language.specialChars]) {
+        row.appendChild(makeKey(char, 'kbd-key', () => insertChar(char)));
+      }
+    });
+  }
+
+  addRow((row) => {
+    row.appendChild(makeKey('␣', 'kbd-key kbd-key--space', () => insertChar(' ')));
+  });
+
+  // physical-keyboard fallback (desktop testing convenience)
+  setKeyHandler((e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      doSubmit();
+    } else if (e.key === 'Backspace') {
+      e.preventDefault();
+      backspace();
+    } else if (e.key.length === 1) {
+      e.preventDefault();
+      insertChar(e.key);
+    }
+  });
 }
 
 export function renderFeedback(state: QuizState, onNext: () => void) {
   const input = el<HTMLInputElement>('answer-input');
   input.className = state.lastCorrect ? 'correct' : 'wrong';
-  input.readOnly = true;
 
   el('virtual-keyboard').querySelectorAll<HTMLButtonElement>('.kbd-key').forEach((b) => { b.disabled = true; });
 
