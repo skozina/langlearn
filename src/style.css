@@ -37,6 +37,10 @@ body {
   padding: 2rem 1rem;
 }
 
+@media (max-width: 480px) {
+  body { padding: 1rem .5rem; }
+}
+
 /* ── Screens ─────────────────────────────────────────────── */
 
 #language-select,
@@ -49,6 +53,10 @@ body {
   border-radius: var(--radius);
   padding: 2rem;
   box-shadow: 0 2px 12px rgba(0,0,0,.08);
+}
+
+@media (max-width: 480px) {
+  #quiz { padding: 1.5rem .6rem; }
 }
 
 /* ── Language select ─────────────────────────────────────── */
@@ -135,6 +143,7 @@ h1 {
 
 input[type="text"] {
   flex: 1;
+  min-width: 0;
   padding: .65rem .9rem;
   border: 2px solid var(--border);
   border-radius: var(--radius);
@@ -156,23 +165,21 @@ input.wrong   { border-color: var(--wrong);   }
 #virtual-keyboard {
   display: flex;
   flex-direction: column;
-  gap: .3rem;
+  gap: .2rem;
   margin-top: .75rem;
 }
 
 .kbd-row {
   display: flex;
-  gap: .3rem;
+  gap: .2rem;
 }
-
-.kbd-row:nth-child(2) { margin-left: 5%; margin-right: 5%; }
-.kbd-row:nth-child(3) { margin-left: 2%; margin-right: 2%; }
 
 .kbd-key {
   flex: 1;
-  min-height: 2.5rem;
-  padding: .3rem .2rem;
-  font-size: .85rem;
+  min-height: 2.9rem;
+  min-width: 0;
+  padding: .3rem .1rem;
+  font-size: .95rem;
   font-weight: 400;
   background: var(--bg);
   color: var(--text);
