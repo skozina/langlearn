@@ -222,11 +222,6 @@ input.wrong   { border-color: var(--wrong);   }
   .feedback.wrong   { background: #7f1d1d; }
 }
 
-#next-btn {
-  margin-top: .75rem;
-  width: 100%;
-}
-
 /* ── Summary ─────────────────────────────────────────────── */
 
 #summary h2 {

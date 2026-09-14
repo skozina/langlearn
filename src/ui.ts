@@ -151,6 +151,9 @@ export function renderQuiz(
   form.replaceWith(fresh);
 
   const freshInput = fresh.querySelector<HTMLInputElement>('#answer-input')!;
+  const checkBtn = fresh.querySelector<HTMLButtonElement>('#check-btn')!;
+  checkBtn.type = 'submit';
+  checkBtn.textContent = 'Check';
   freshInput.focus();
 
   function doSubmit() {
@@ -303,10 +306,11 @@ export function renderFeedback(state: QuizState, onNext: () => void) {
     fb.textContent = `Correct answer: ${state.current.foreign}`;
   }
 
-  const btn = el<HTMLButtonElement>('next-btn');
+  const btn = el<HTMLButtonElement>('check-btn');
   const fresh = btn.cloneNode(true) as HTMLButtonElement;
   btn.replaceWith(fresh);
-  fresh.hidden = false;
+  fresh.type = 'button';
+  fresh.textContent = 'Next →';
 
   function advance() {
     setKeyHandler(null);
