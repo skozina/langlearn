@@ -130,11 +130,10 @@ export function renderQuiz(
 ) {
   setScreen('quiz');
 
-  // progress
-  const done = state.total - state.queue.length - 1; // words answered so far
-  el('progress-text').textContent = `${done + 1} / ${state.total}`;
+  // progress (based on distinct words mastered, not on raw attempts)
+  el('progress-text').textContent = `${state.mastered} / ${state.total}`;
   const bar = el<HTMLElement>('progress-bar-fill');
-  bar.style.width = `${((done) / state.total) * 100}%`;
+  bar.style.width = `${(state.mastered / state.total) * 100}%`;
 
   // word prompt
   el('word-native').textContent = state.current.native;
@@ -325,8 +324,9 @@ export function renderFeedback(state: QuizState, onNext: () => void) {
 export function renderSummary(data: SummaryData, onRestart: () => void) {
   setScreen('summary');
 
-  el('summary-score').textContent = `${data.score} / ${data.total}`;
   el('summary-lang').textContent = data.languageLabel;
+  el('summary-score').textContent = `${data.firstTryCorrect} / ${data.total}`;
+  el('summary-accuracy').textContent = `${data.accuracyPercent}% (${data.correctAttempts} / ${data.attempts})`;
 
   const missedList = el('missed-list');
   missedList.innerHTML = '';

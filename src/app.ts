@@ -7,8 +7,11 @@ export function startQuiz(language: LanguageData, lesson: Lesson): QuizState {
     language,
     queue: queue.slice(1),
     current: queue[0],
-    score: 0,
     total: lesson.words.length,
+    mastered: 0,
+    firstTryCorrect: 0,
+    attempts: 0,
+    correctAttempts: 0,
     missed: [],
     phase: 'quiz',
     lastCorrect: false,
@@ -17,12 +20,19 @@ export function startQuiz(language: LanguageData, lesson: Lesson): QuizState {
 
 export function submit(state: QuizState, answer: string): QuizState {
   const correct = answer.trim() === state.current.foreign;
+  const firstAttempt = !state.missed.includes(state.current);
+
   return {
     ...state,
     phase: 'feedback',
     lastCorrect: correct,
-    score: correct ? state.score + 1 : state.score,
-    missed: correct ? state.missed : [...state.missed, state.current],
+    attempts: state.attempts + 1,
+    correctAttempts: correct ? state.correctAttempts + 1 : state.correctAttempts,
+    firstTryCorrect: correct && firstAttempt ? state.firstTryCorrect + 1 : state.firstTryCorrect,
+    mastered: correct ? state.mastered + 1 : state.mastered,
+    missed: !correct && firstAttempt ? [...state.missed, state.current] : state.missed,
+    // wrong answers go back to the end of the queue so the word repeats until correct
+    queue: correct ? state.queue : [...state.queue, state.current],
   };
 }
 
@@ -36,21 +46,23 @@ export function isFinished(state: QuizState): boolean {
   return state.phase === 'feedback' && state.queue.length === 0;
 }
 
-export function scoreLabel(score: number, total: number): string {
-  return `${score} / ${total}`;
-}
-
 export interface SummaryData {
-  score: number;
+  firstTryCorrect: number;
   total: number;
+  attempts: number;
+  correctAttempts: number;
+  accuracyPercent: number;
   missed: WordPair[];
   languageLabel: string;
 }
 
 export function buildSummary(state: QuizState): SummaryData {
   return {
-    score: state.score,
+    firstTryCorrect: state.firstTryCorrect,
     total: state.total,
+    attempts: state.attempts,
+    correctAttempts: state.correctAttempts,
+    accuracyPercent: state.attempts === 0 ? 0 : Math.round((state.correctAttempts / state.attempts) * 100),
     missed: state.missed,
     languageLabel: state.language.label,
   };

@@ -18,11 +18,14 @@ export interface LanguageData {
 
 export interface QuizState {
   language: LanguageData;
-  queue: WordPair[];       // remaining words this round
+  queue: WordPair[];       // words not yet answered correctly (wrong answers are requeued at the end)
   current: WordPair;
-  score: number;
-  total: number;
-  missed: WordPair[];
+  total: number;           // distinct words in the lesson
+  mastered: number;        // distinct words answered correctly so far
+  firstTryCorrect: number; // distinct words answered correctly on their very first attempt
+  attempts: number;        // total answers submitted this round, including retries
+  correctAttempts: number; // total correct answers submitted this round, including retries
+  missed: WordPair[];      // words that were ever answered wrong (for the review list)
   phase: 'quiz' | 'feedback';
   lastCorrect: boolean;
 }
