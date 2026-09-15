@@ -2,7 +2,7 @@
   "id": "es",
   "label": "Spanish",
   "nativeLabel": "Español",
-  "specialChars": ["á","é","í","ó","ú","ü","ñ","¿","¡","Á","É","Í","Ó","Ú","Ü","Ñ"],
+  "specialChars": ["á","é","í","ó","ú","ü","ñ","¿","¡"],
   "lessons": [
     {
       "name": "Lesson 1 – Greetings & Phrases",

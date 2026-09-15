@@ -289,28 +289,32 @@ export function renderQuiz(
     kbd.appendChild(row);
   }
 
+  // Key whose label/inserted character is capitalized while Shift is on
+  // (a no-op for characters with no case, like punctuation).
+  function addShiftableKey(row: HTMLElement, char: string, className = 'kbd-key') {
+    const btn = makeKey(char, className, () => {
+      insertChar(shiftOn ? char.toUpperCase() : char);
+      if (shiftOn) {
+        shiftOn = false;
+        updateLetterLabels();
+        shiftBtn.classList.remove('active');
+      }
+    });
+    btn.dataset.letter = char;
+    letterButtons.push(btn);
+    row.appendChild(btn);
+  }
+
   function addLetterRow(letters: string) {
     addRow((row) => {
-      for (const letter of letters) {
-        const btn = makeKey(letter, 'kbd-key', () => {
-          insertChar(shiftOn ? letter.toUpperCase() : letter);
-          if (shiftOn) {
-            shiftOn = false;
-            updateLetterLabels();
-            shiftBtn.classList.remove('active');
-          }
-        });
-        btn.dataset.letter = letter;
-        letterButtons.push(btn);
-        row.appendChild(btn);
-      }
+      for (const letter of letters) addShiftableKey(row, letter);
     });
   }
 
   if (KBD_PUNCTUATION.length > 0 || state.language.specialChars.length > 0) {
     addRow((row) => {
       for (const char of [...KBD_PUNCTUATION, ...state.language.specialChars]) {
-        row.appendChild(makeKey(char, 'kbd-key kbd-key--special', () => insertChar(char)));
+        addShiftableKey(row, char, 'kbd-key kbd-key--special');
       }
     }, 'kbd-row--special');
   }
@@ -326,19 +330,7 @@ export function renderQuiz(
       shiftBtn.classList.toggle('active', shiftOn);
     });
     row.appendChild(shiftBtn);
-    for (const letter of KBD_ROW_3) {
-      const btn = makeKey(letter, 'kbd-key', () => {
-        insertChar(shiftOn ? letter.toUpperCase() : letter);
-        if (shiftOn) {
-          shiftOn = false;
-          updateLetterLabels();
-          shiftBtn.classList.remove('active');
-        }
-      });
-      btn.dataset.letter = letter;
-      letterButtons.push(btn);
-      row.appendChild(btn);
-    }
+    for (const letter of KBD_ROW_3) addShiftableKey(row, letter);
     row.appendChild(makeKey('⌫', 'kbd-key kbd-key--wide', backspace));
   });
 

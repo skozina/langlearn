@@ -2,7 +2,7 @@
   "id": "de",
   "label": "German",
   "nativeLabel": "Deutsch",
-  "specialChars": ["ä","ö","ü","ß","Ä","Ö","Ü"],
+  "specialChars": ["ä","ö","ü","ß"],
   "lessons": [
     {
       "name": "Lesson 1 – Greetings & Phrases",
