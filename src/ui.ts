@@ -206,13 +206,17 @@ export function renderQuiz(
     btn.type = 'button';
     btn.textContent = label;
     btn.className = className;
-    btn.addEventListener('click', onClick);
+    btn.addEventListener('click', () => {
+      btn.classList.add('kbd-key--pressed');
+      setTimeout(() => btn.classList.remove('kbd-key--pressed'), 150);
+      onClick();
+    });
     return btn;
   }
 
-  function addRow(build: (row: HTMLElement) => void) {
+  function addRow(build: (row: HTMLElement) => void, extraClass = '') {
     const row = document.createElement('div');
-    row.className = 'kbd-row';
+    row.className = extraClass ? `kbd-row ${extraClass}` : 'kbd-row';
     build(row);
     kbd.appendChild(row);
   }
@@ -233,6 +237,14 @@ export function renderQuiz(
         row.appendChild(btn);
       }
     });
+  }
+
+  if (KBD_PUNCTUATION.length > 0 || state.language.specialChars.length > 0) {
+    addRow((row) => {
+      for (const char of [...KBD_PUNCTUATION, ...state.language.specialChars]) {
+        row.appendChild(makeKey(char, 'kbd-key kbd-key--special', () => insertChar(char)));
+      }
+    }, 'kbd-row--special');
   }
 
   addLetterRow(KBD_ROW_1);
@@ -261,14 +273,6 @@ export function renderQuiz(
     }
     row.appendChild(makeKey('⌫', 'kbd-key kbd-key--wide', backspace));
   });
-
-  if (KBD_PUNCTUATION.length > 0 || state.language.specialChars.length > 0) {
-    addRow((row) => {
-      for (const char of [...KBD_PUNCTUATION, ...state.language.specialChars]) {
-        row.appendChild(makeKey(char, 'kbd-key', () => insertChar(char)));
-      }
-    });
-  }
 
   addRow((row) => {
     row.appendChild(makeKey('␣', 'kbd-key kbd-key--space', () => insertChar(' ')));
