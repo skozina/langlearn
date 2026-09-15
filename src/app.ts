@@ -5,6 +5,7 @@ export function startQuiz(language: LanguageData, lesson: Lesson): QuizState {
   const queue = shuffle(lesson.words);
   return {
     language,
+    lessonName: lesson.name,
     queue: queue.slice(1),
     current: queue[0],
     total: lesson.words.length,
@@ -53,7 +54,9 @@ export interface SummaryData {
   correctAttempts: number;
   accuracyPercent: number;
   missed: WordPair[];
+  languageId: string;
   languageLabel: string;
+  lessonName: string;
 }
 
 export function buildSummary(state: QuizState): SummaryData {
@@ -64,6 +67,8 @@ export function buildSummary(state: QuizState): SummaryData {
     correctAttempts: state.correctAttempts,
     accuracyPercent: state.attempts === 0 ? 0 : Math.round((state.correctAttempts / state.attempts) * 100),
     missed: state.missed,
+    languageId: state.language.id,
     languageLabel: state.language.label,
+    lessonName: state.lessonName,
   };
 }

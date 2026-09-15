@@ -18,6 +18,7 @@ export interface LanguageData {
 
 export interface QuizState {
   language: LanguageData;
+  lessonName: string;
   queue: WordPair[];       // words not yet answered correctly (wrong answers are requeued at the end)
   current: WordPair;
   total: number;           // distinct words in the lesson

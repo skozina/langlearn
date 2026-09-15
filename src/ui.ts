@@ -1,7 +1,8 @@
 import type { LanguageData, Lesson, QuizState } from './types';
 import type { SummaryData } from './app';
+import type { LessonResult } from './storage';
 
-type Screen = 'language-select' | 'lesson-select' | 'quiz' | 'summary';
+type Screen = 'language-select' | 'lesson-select' | 'quiz' | 'summary' | 'results';
 
 // Only one document-level keydown handler may be active at a time.
 let activeKeyHandler: ((e: KeyboardEvent) => void) | null = null;
@@ -24,7 +25,7 @@ function hide(id: string) {
 }
 
 function setScreen(screen: Screen) {
-  (['language-select', 'lesson-select', 'quiz', 'summary'] as const).forEach((s) => {
+  (['language-select', 'lesson-select', 'quiz', 'summary', 'results'] as const).forEach((s) => {
     const elem = el(s);
     elem.hidden = s !== screen;
   });
@@ -75,8 +76,10 @@ export function renderLanguageSelect(
 
 export function renderLessonSelect(
   language: LanguageData,
+  getBestResult: (lessonName: string) => LessonResult | undefined,
   onSelect: (lesson: Lesson) => void,
-  onBack: () => void
+  onBack: () => void,
+  onShowResults: () => void
 ) {
   setScreen('lesson-select');
   setKeyHandler(null);
@@ -95,7 +98,21 @@ export function renderLessonSelect(
 
   for (const lesson of language.lessons) {
     const btn = document.createElement('button');
-    btn.textContent = lesson.name;
+    btn.className = 'lesson-btn';
+
+    const name = document.createElement('span');
+    name.className = 'lesson-name';
+    name.textContent = lesson.name;
+    btn.appendChild(name);
+
+    const best = getBestResult(lesson.name);
+    if (best) {
+      const score = document.createElement('span');
+      score.className = 'lesson-best-score';
+      score.textContent = `Best: ${best.firstTryCorrect} / ${best.total} (${best.scorePercent}%)`;
+      btn.appendChild(score);
+    }
+
     btn.addEventListener('click', () => onSelect(lesson));
     list.appendChild(btn);
   }
@@ -115,6 +132,59 @@ export function renderLessonSelect(
   });
 
   setTimeout(() => buttons()[0]?.focus(), 0);
+
+  const oldResultsLink = el<HTMLButtonElement>('results-link-btn');
+  const freshResultsLink = oldResultsLink.cloneNode(true) as HTMLButtonElement;
+  oldResultsLink.replaceWith(freshResultsLink);
+  freshResultsLink.addEventListener('click', onShowResults);
+}
+
+// ── Past results ─────────────────────────────────────────────────────────────
+
+export function renderResults(results: LessonResult[], onBack: () => void) {
+  setScreen('results');
+  setKeyHandler(null);
+
+  const oldBack = el<HTMLButtonElement>('results-back-btn');
+  const freshBack = oldBack.cloneNode(true) as HTMLButtonElement;
+  oldBack.replaceWith(freshBack);
+  freshBack.addEventListener('click', onBack);
+
+  const list = el('results-list');
+  list.innerHTML = '';
+
+  if (results.length === 0) {
+    list.innerHTML = '<p class="subtitle">No completed lessons yet.</p>';
+    return;
+  }
+
+  for (const r of results) {
+    const item = document.createElement('div');
+    item.className = 'result-item';
+
+    const info = document.createElement('div');
+    info.className = 'result-info';
+    info.innerHTML = `
+      <span class="result-lesson">${r.languageLabel} — ${r.lessonName}</span>
+      <span class="result-date">${formatDateTime(r.completedAt)}</span>
+    `;
+
+    const score = document.createElement('span');
+    score.className = 'result-score';
+    score.textContent = `${r.firstTryCorrect} / ${r.total} (${r.scorePercent}%)`;
+
+    item.appendChild(info);
+    item.appendChild(score);
+    list.appendChild(item);
+  }
+}
+
+function formatDateTime(iso: string): string {
+  const d = new Date(iso);
+  return d.toLocaleString(undefined, {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  });
 }
 
 // ── Quiz ─────────────────────────────────────────────────────────────────────

@@ -91,6 +91,74 @@ h1 {
 
 #lesson-back-btn:hover { background: var(--primary); color: #fff; }
 
+.lesson-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .2rem;
+}
+
+.lesson-best-score {
+  font-size: .8rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, .85);
+}
+
+.link-btn {
+  display: block;
+  margin: 1.25rem auto 0;
+  padding: 0;
+  background: transparent;
+  color: var(--primary);
+  font-weight: 600;
+  font-size: .9rem;
+  border: none;
+  text-decoration: underline;
+}
+
+.link-btn:hover { color: var(--primary-hover); background: transparent; }
+
+/* ── Past results ────────────────────────────────────────── */
+
+#results-list {
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+}
+
+.result-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  padding: .65rem .9rem;
+  background: var(--bg);
+  border-radius: 8px;
+}
+
+.result-info {
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+  min-width: 0;
+}
+
+.result-lesson {
+  font-weight: 600;
+  font-size: .95rem;
+}
+
+.result-date {
+  font-size: .8rem;
+  color: var(--muted);
+}
+
+.result-score {
+  flex-shrink: 0;
+  font-weight: 600;
+  color: var(--primary);
+}
+
 /* ── Quiz header ─────────────────────────────────────────── */
 
 #quiz header {
