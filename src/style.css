@@ -93,12 +93,20 @@ h1 {
 
 .lesson-btn {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: .2rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+}
+
+.lesson-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .lesson-best-score {
+  flex-shrink: 0;
   font-size: .8rem;
   font-weight: 400;
   color: rgba(255, 255, 255, .85);

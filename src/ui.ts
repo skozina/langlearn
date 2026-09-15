@@ -106,12 +106,10 @@ export function renderLessonSelect(
     btn.appendChild(name);
 
     const best = getBestResult(lesson.name);
-    if (best) {
-      const score = document.createElement('span');
-      score.className = 'lesson-best-score';
-      score.textContent = `Best: ${best.firstTryCorrect} / ${best.total} (${best.scorePercent}%)`;
-      btn.appendChild(score);
-    }
+    const score = document.createElement('span');
+    score.className = 'lesson-best-score';
+    score.textContent = best ? `${best.firstTryCorrect} / ${best.total} (${best.scorePercent}%)` : '';
+    btn.appendChild(score);
 
     btn.addEventListener('click', () => onSelect(lesson));
     list.appendChild(btn);
